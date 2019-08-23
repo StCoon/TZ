@@ -12,9 +12,8 @@ product_count = main_page_doc.xpath("//*[@class='heading-counter']").text.to_i
 page_count = product_count % 25 == 0 ? product_count / 25 : product_count / 25 + 1
 
 #Открытие файла, для записи информации
-CSV.open("data", "wb") do |csv_line|
-  csv_line << %w('Название' 'Цена' 'Изображение')
-#Цикл по всем страницам с продуктом
+CSV.open("try.csv", "wb") do |csv_line|
+    csv_line << %w('Название' 'Цена' 'Изображение')
 (1 .. page_count).each do |i|
 #Открытие отдельных страниц с продуктами категории
 pages_url = "https://www.petsonic.com/snacks-huesos-para-perros/?p=#{i}"
@@ -36,7 +35,7 @@ all_url.each do |prod|
   #Цикл по каждой весовке/размерности
   for prod in 0..prod_size.length() - 1
     #занесение собранной информации о товаре в специальную переменную и запись этих данных в файл
-    prod_full = ["#{prod_name.text} - #{prod_size[prod].text}", prod_value[prod].text, prod_img.text]
+    prod_full = "#{prod_name.text} - #{prod_size[prod].text}", prod_value[prod].text, prod_img.text
     csv_line << [prod_full]
   end
 end
