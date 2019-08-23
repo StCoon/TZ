@@ -37,8 +37,8 @@ all_url.each do |prod|
   prod_name = page_doc.xpath("//h1")
   prod_img = page_doc.xpath("//span[@id='view_full_size']//@src")
   prod_size = page_doc.xpath("//span[@class='radio_label']")
-  prod_value = page_doc.xpath("//span[@class='price_comb']").map do |prod_value|
-      /\d+[.,]\d+/.match(prod_value.text)
+  prod_value = page_doc.xpath("//span[@class='price_comb']").map do |produ_value|
+      /\d+[.,]\d+/.match(produ_value.text)
   end
   puts "Продукты обработаны успешно."
   #Цикл по каждой весовке/размерности
