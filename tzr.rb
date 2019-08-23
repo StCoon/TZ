@@ -37,24 +37,21 @@ all_url.each do |prod|
   prod_name = page_doc.xpath("//h1")
   prod_img = page_doc.xpath("//span[@id='view_full_size']//@src")
   prod_size = page_doc.xpath("//span[@class='radio_label']")
-  prod_value = page_doc.xpath("//span[@class='price_comb']").map do |produ_value|
-      /\d+[.,]\d+/.match(produ_value.text)
-  end
-  puts "Продукты обработаны успешно."
+  prod_value = page_doc.xpath("//span[@class='price_comb']")#map do |produ_value|
+      #/\d+[.,]\d+/.match(produ_value.text)
+  #end
   #Цикл по каждой весовке/размерности
-  puts "Запись данных о продуктах страницы в файл..."
   for prod in 0..prod_size.length() - 1
     #занесение собранной информации о товаре в специальную переменную и запись этих данных в файл
     prod_full = "#{prod_name.text} - #{prod_size[prod].text}", prod_value[prod].text, prod_img.text
     csv_line << prod_full
   end
-  puts "Данные о продуктах со страницы внесены успешно."
 end
-puts "Все продукты страницы обработаны."
-end
+puts "Все продукты страницы обработаны, данные внесены в файл."
 if i == page_count
   puts "Обработка всех страниц завершена."
 else puts "Переход к следующей странице..."
- end
 end
-puts "Файл успешно сохранён, результат работы программы: #{CSV_PATH}"
+end
+end
+puts "Файл успешно сохранён, результат работы программы: #{CSV_PATH} "
