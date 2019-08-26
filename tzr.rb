@@ -19,11 +19,18 @@ puts "Открытие файла для записи..."
 CSV.open(CSV_PATH, "wb") do |csv_line|
     csv_line << %w(Name Price Image)
 (1 .. page_count).each do |i|
+  puts "Обработка страницы № #{i}"
 #Открытие отдельных страниц с продуктами категории
-puts "Обработка страницы № #{i}"
-pages_url = ARG_URL+"?p=#{i}"
-html = open(pages_url)
-pages_doc = Nokogiri::HTML(html)
+if i == 1
+  pages_url = ARG_URL
+  html = open(pages_url)
+  pages_doc = Nokogiri::HTML(html)
+else
+  pages_url = ARG_URL+"?p=#{i}"
+  html = open(pages_url)
+  pages_doc = Nokogiri::HTML(html)
+end
+
 #Занесение ссылки на каждый продукт текущей страницы категории в массив
 all_url = pages_doc.xpath("//a[@class ='product_img_link product-list-category-img']//@href")
 #Цикл по каждой странице с продуктом из текущего набора
