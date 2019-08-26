@@ -6,7 +6,7 @@ require 'csv'
 ARG_URL = ARGV[0]
 CSV_PATH = ARGV[1]
 main_page_url = ARG_URL
-html = open(main_page_url)
+html = Curl::Easy.perform(main_page_url).body
 main_page_doc = Nokogiri::HTML(html)
 puts "Вычисление количества продуктов и страниц категории..."
 #Вычисление количества страниц в категории продукта
@@ -23,11 +23,11 @@ CSV.open(CSV_PATH, "wb") do |csv_line|
 #Открытие отдельных страниц с продуктами категории
 if i == 1
   pages_url = ARG_URL
-  html = open(pages_url)
+  html = Curl::Easy.perform(pages_url).body
   pages_doc = Nokogiri::HTML(html)
 else
   pages_url = ARG_URL+"?p=#{i}"
-  html = open(pages_url)
+  html = Curl::Easy.perform(pages_url).body
   pages_doc = Nokogiri::HTML(html)
 end
 
@@ -38,7 +38,7 @@ puts "Начало обработки продуктов..."
 all_url.each do |prod|
 #Открытие ссылки на конкретный продукт
   page_url = prod
-  html = open(page_url)
+  html = Curl::Easy.perform(page_url).body
   page_doc = Nokogiri::HTML(html)
   #Вычисление названия продукта, ссылки на картинку, различных весовок/размерностей, и цен для каждой весовки/размерности
   prod_name = page_doc.xpath("//h1")
