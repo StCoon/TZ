@@ -1,4 +1,4 @@
-require 'open-uri'
+require 'curb'
 require 'nokogiri'
 require 'csv'
 
