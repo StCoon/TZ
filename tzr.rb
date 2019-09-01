@@ -51,11 +51,11 @@ class Parse
   end
 
   def pages_parse(page_count)
-    all_pages = []
+    all_pages_url = []
     pages_url = ARG_URL
     html = Curl::Easy.perform(pages_url).body
     pages_doc = Nokogiri::HTML(html)
-    all_pages += pages_doc.xpath("//a[@class ='product_img_link product-list-category-img']//@href")
+    all_pages_url += pages_doc.xpath("//a[@class ='product_img_link product-list-category-img']//@href")
       (2 .. page_count).each do |i|
         puts "Обработка страницы № #{i}"
         #Открытие отдельных страниц с продуктами категории
@@ -63,14 +63,14 @@ class Parse
         html = Curl::Easy.perform(pages_url).body
         pages_doc = Nokogiri::HTML(html)
         #Занесение ссылки на каждый продукт текущей страницы категории в массив
-        all_pages += pages_doc.xpath("//a[@class ='product_img_link product-list-category-img']//@href")
+        all_pages_url += pages_doc.xpath("//a[@class ='product_img_link product-list-category-img']//@href")
         #Цикл по каждой странице с продуктом из текущего набора
           if i == page_count
             puts "Обработка всех страниц завершена."
           else puts "Переход к следующей странице..."
           end
         end
-    product_parse(all_pages)
+    product_parse(all_pages_url)
   end
 end
 #открытие ссылки с категорией продукта
