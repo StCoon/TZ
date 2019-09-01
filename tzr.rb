@@ -24,6 +24,7 @@ class Parse
           csv_line << line
         end
       end
+      puts "Файл успешно сохранён, результат работы программы: #{CSV_PATH}"
     end
 
     def product_parse(all_url)
@@ -40,7 +41,7 @@ class Parse
         prod_value = page_doc.xpath("//span[@class='price_comb']").map do |produ_value|
             /\d+[.,]\d+/.match(produ_value.text)
             end
-        for prod in 0..prod_size.length() - 1
+        for prod in 0...prod_size.length()
           #занесение собранной информации о товаре в специальную переменную и запись этих данных в файл
           rs.append ["#{prod_name.text} - #{prod_size[prod].text}", prod_value[prod], prod_img.text]
         end
@@ -79,6 +80,3 @@ CSV_PATH = ARGV[1]
 p = Parse.new
 pc = p.category_parse(ARG_URL)
 p.pages_parse(pc)
-
-puts "Все продукты страницы обработаны, данные внесены в файл."
-puts "Файл успешно сохранён, результат работы программы: #{CSV_PATH}"
