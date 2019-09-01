@@ -18,7 +18,7 @@ def save_to_csv(path, data)
   puts "Открытие файла для записи..."
   CSV.open(path, "wb") do |csv_line|
       csv_line << %w(Name Price Image)
-  (0..data.length - 1).each do |line|
+    data.each do |line|
     csv_line << line
   end
 end
@@ -34,9 +34,9 @@ def product_parse(all_url)
   prod_name = page_doc.xpath("//h1")
   prod_img = page_doc.xpath("//span[@id='view_full_size']//@src")
   prod_size = page_doc.xpath("//span[@class='radio_label']")
-  prod_value = page_doc.xpath("//span[@class='price_comb']")#map do |produ_value|
-      #/\d+[.,]\d+/.match(produ_value.text)
-  #end
+  prod_value = page_doc.xpath("//span[@class='price_comb']").map do |produ_value|
+      /\d+[.,]\d+/.match(produ_value.text)
+  end
   for prod in 0..size.length() - 1
     #занесение собранной информации о товаре в специальную переменную и запись этих данных в файл
     rs.append ["#{prod_name.text} - #{prod_size[prod].text}", prod_value[prod].text, prod_img.text]
@@ -52,7 +52,7 @@ def pages_parse(page_count)
     puts "Обработка страницы № #{i}"
   #Открытие отдельных страниц с продуктами категории
   if i == 1
-    pages_url = "https://www.petsonic.com/snacks-huesos-para-perros"
+    pages_url = "https://www.petsonic.com/snacks-huesos-para-perros/"
     html = open(pages_url)
     pages_doc = Nokogiri::HTML(html)
   else
